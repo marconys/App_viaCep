@@ -55,7 +55,7 @@ class _NavTabViewState extends State<NavTabView> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.create),
-              label: 'Cadastrar/Atualizar CEP',
+              label: 'Cadastrar/Atualizar',
             ),
           ]),
     );

@@ -10,6 +10,10 @@ class ListCepView extends StatefulWidget {
 class _ListCepViewState extends State<ListCepView> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Text("Meus Endereços"),
+      ),
+    );
   }
 }

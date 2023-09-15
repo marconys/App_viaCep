@@ -22,6 +22,12 @@ class _SearchCepViewState extends State<SearchCepView> {
               maxLength: 8,
               controller: controllerCep,
               keyboardType: TextInputType.number,
+              onChanged: (String value) {
+                var cep = value;
+                if (cep.length == 8) {
+                  //TODO: implementar conforme https://github.com/marconys/bootcamp_santander/blob/main/todas-as-aulas/Modulo5/lib/pages/consulta_cep.dart
+                }
+              },
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp('[0-9]')),
               ],

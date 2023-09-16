@@ -100,15 +100,15 @@ class EnderecosBack4AppModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> dataEnderecosBack4App = <String, dynamic>{};
-    dataEnderecosBack4App['objectId'] = _objectId;
-    dataEnderecosBack4App['cep'] = _cep;
-    dataEnderecosBack4App['logradouro'] = _logradouro;
-    dataEnderecosBack4App['bairro'] = _bairro;
-    dataEnderecosBack4App['cidade'] = _cidade;
-    dataEnderecosBack4App['uf'] = _uf;
-    dataEnderecosBack4App['createdAt'] = _createdAt;
-    dataEnderecosBack4App['updatedAt'] = _updatedAt;
-    return dataEnderecosBack4App;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['objectId'] = _objectId;
+    data['cep'] = _cep;
+    data['logradouro'] = _logradouro;
+    data['bairro'] = _bairro;
+    data['cidade'] = _cidade;
+    data['uf'] = _uf;
+    data['createdAt'] = _createdAt;
+    data['updatedAt'] = _updatedAt;
+    return data;
   }
 }

@@ -88,17 +88,17 @@ class ViaCepModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> dataEnderecosViaCep = <String, dynamic>{};
-    dataEnderecosViaCep['cep'] = _cep;
-    dataEnderecosViaCep['logradouro'] = _logradouro;
-    dataEnderecosViaCep['complemento'] = _complemento;
-    dataEnderecosViaCep['bairro'] = _bairro;
-    dataEnderecosViaCep['localidade'] = _localidade;
-    dataEnderecosViaCep['uf'] = _uf;
-    dataEnderecosViaCep['ibge'] = _ibge;
-    dataEnderecosViaCep['gia'] = _gia;
-    dataEnderecosViaCep['ddd'] = _ddd;
-    dataEnderecosViaCep['siafi'] = _siafi;
-    return dataEnderecosViaCep;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['cep'] = _cep;
+    data['logradouro'] = _logradouro;
+    data['complemento'] = _complemento;
+    data['bairro'] = _bairro;
+    data['localidade'] = _localidade;
+    data['uf'] = _uf;
+    data['ibge'] = _ibge;
+    data['gia'] = _gia;
+    data['ddd'] = _ddd;
+    data['siafi'] = _siafi;
+    return data;
   }
 }

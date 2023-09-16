@@ -47,7 +47,7 @@ class _CreateUpdateCepViewState extends State<CreateUpdateCepView> {
                   )),
                   const SizedBox(width: 10),
                   Expanded(
-                    flex: 1,
+                    flex: 2,
                     child: TextFormField(
                     decoration: InputDecoration(
                   labelText: 'UF-Estado',

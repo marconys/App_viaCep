@@ -4,7 +4,7 @@ import 'package:via_cep_api/models/viacep_model.dart';
 import 'package:via_cep_api/repositories/viacep/viacep_http_repository.dart';
 
 class SearchCepView extends StatefulWidget {
-  final Function(int) onIndexPageChange;
+  final Function(String, int) onIndexPageChange;
   const SearchCepView({super.key, required this.onIndexPageChange});
 
   @override
@@ -15,11 +15,11 @@ class _SearchCepViewState extends State<SearchCepView> {
   var controllerCep = TextEditingController(text: '');
   var viaCepModel = ViaCepModel();
   var viaCepRepository = ViaCepRepository();
-  String cep = "";
-  String logradouro = "";
-  String bairro = "";
-  String cidade = "";
-  String uf = "";
+  bool loading = false;
+
+  void enviarEndereco(BuildContext context){
+    widget.onIndexPageChange("${viaCepModel.cep}", 2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,7 @@ class _SearchCepViewState extends State<SearchCepView> {
                 var cep = value;
                 if (cep.length == 8) {
                   viaCepModel = await viaCepRepository.consultarCEP(cep);
-                  setState(() {
-                  });
+                  setState(() {});
                 }
               },
               inputFormatters: [
@@ -48,26 +47,33 @@ class _SearchCepViewState extends State<SearchCepView> {
                   hintText: 'Digite aqui o CEP a Ser Buscado...'),
             ),
             GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  enviarEndereco(context);                
+                },
                 child: Card(
-                  child: Column(                    
+                  child: loading ? const CircularProgressIndicator() : Column(
                     children: [
                       Text(
-                          "${viaCepModel.cep ?? ""} - ${viaCepModel.logradouro ?? ""}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                          "${viaCepModel.cep ?? ""} - ${viaCepModel.logradouro ?? ""}",
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w600)),
                       Text(
-                          "${viaCepModel.bairro ?? ""} - ${viaCepModel.localidade ?? ""} - ${viaCepModel.uf ?? ""}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),)
+                        "${viaCepModel.bairro ?? ""} - ${viaCepModel.localidade ?? ""} - ${viaCepModel.uf ?? ""}",
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
+                      )
                     ],
                   ),
                 )),
             const SizedBox(
               height: 20,
             ),
-            if(viaCepModel.cep == null || viaCepModel.cep == "") ElevatedButton(
-                onPressed: () {
-                  int index = 2;
-                  widget.onIndexPageChange(index);
-                },
-                child: const Text('Cadastrar CEP')),
+            if (viaCepModel.cep == null || viaCepModel.cep == "")
+              ElevatedButton(
+                  onPressed: () {
+                    enviarEndereco(context);
+                  },
+                  child: const Text('Cadastrar CEP')),
           ],
         ),
       ),

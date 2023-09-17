@@ -32,7 +32,7 @@ class EnderecosBack4AppModel {
   EnderecosBack4AppModel(this._cep, this._logradouro, this._bairro,
       this._cidade, this._uf, this._createdAt, this._updatedAt);
 
-      EnderecosBack4AppModel.update();
+      EnderecosBack4AppModel.update(this._objectId, this._cep, this._logradouro, this._bairro, this._cidade, this._uf);
 
   EnderecosBack4AppModel.create(
       this._cep, this._logradouro, this._bairro, this._cidade, this._uf);

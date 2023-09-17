@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:via_cep_api/models/enderecos_back4app_model.dart';
 import 'package:via_cep_api/repositories/back4app/back4app_repository.dart';
+import 'package:via_cep_api/views/create_update_cep.dart';
 
 class ListCepView extends StatefulWidget {
-  final Function(String, int) onIndexPageChange;
-  const ListCepView({super.key, required this.onIndexPageChange});
+  const ListCepView({super.key});
 
   @override
   State<ListCepView> createState() => _ListCepViewState();
@@ -13,6 +13,12 @@ class ListCepView extends StatefulWidget {
 class _ListCepViewState extends State<ListCepView> {
   Back4AppHttpRepository back4AppHttpRepository = Back4AppHttpRepository();
   var _enderecosBack4AppModel = CepsBack4AppModel([]);
+  late String objectId;
+  late String cep;
+  late String logradouro;
+  late String bairro;
+  late String cidade;
+  late String uf;
   bool loading = false;
 
   @override
@@ -39,6 +45,31 @@ class _ListCepViewState extends State<ListCepView> {
     );
   }
 
+  buscarEnderecoById(String id) async {
+    var enderecos = await back4AppHttpRepository.getEnderecoByObjectId(id);
+
+    objectId = enderecos!.objectId;
+    cep = enderecos.cep;
+    logradouro = enderecos.logradouro;
+    bairro = enderecos.bairro;
+    cidade = enderecos.cidade;
+    uf = enderecos.uf;
+    setState(() {});
+  }
+
+  void enviarEndereco(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CreateUpdateCepView(
+                objectId: objectId,
+                cep: cep,
+                logradouro: logradouro,
+                bairro: bairro,
+                cidade: cidade,
+                uf: uf)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,23 +91,18 @@ class _ListCepViewState extends State<ListCepView> {
                                 await back4AppHttpRepository
                                     .deleteEndereco(endereco.objectId);
                                 getEnderecos();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            "Endereço Excluído com sucesso!")));
+                                showSnackBar("Endereço Excluído com sucesso!");
                               },
                               key: Key(endereco.logradouro),
                               child: GestureDetector(
-                                onTap: () {
-                                  widget.onIndexPageChange(
-                                      endereco.objectId.toString(), 2);
-                                  debugPrint(endereco.objectId);
+                                onTap: () async {
+                                  await buscarEnderecoById(endereco.objectId);
+                                  enviarEndereco(contex);
                                 },
                                 child: ListTile(
                                   title: Text(
                                       "${endereco.logradouro} - ${endereco.bairro}\n${endereco.cidade} - ${endereco.uf}"),
                                 ),
-                                
                               ));
                         })),
           ],

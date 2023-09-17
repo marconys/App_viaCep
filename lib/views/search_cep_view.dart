@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:via_cep_api/models/viacep_model.dart';
 import 'package:via_cep_api/repositories/viacep/viacep_http_repository.dart';
+import 'package:via_cep_api/views/create_update_cep.dart';
 
 class SearchCepView extends StatefulWidget {
-  final Function(String, int) onIndexPageChange;
-  const SearchCepView({super.key, required this.onIndexPageChange});
+  const SearchCepView({super.key});
 
   @override
   State<SearchCepView> createState() => _SearchCepViewState();
@@ -17,8 +17,36 @@ class _SearchCepViewState extends State<SearchCepView> {
   var viaCepRepository = ViaCepRepository();
   bool loading = false;
 
-  void enviarEndereco(BuildContext context){
-    widget.onIndexPageChange("${viaCepModel.cep}", 2);
+  void enviarEndereco(BuildContext context) {
+    String cep;
+    String logradouro;
+    String bairro;
+    String cidade;
+    String uf;
+    if (viaCepModel.logradouro == null) {
+      cep = controllerCep.text;
+      logradouro = "";
+      bairro = "";
+      cidade = "";
+      uf = "";
+    } else {
+      cep = viaCepModel.cep.toString();
+     logradouro = viaCepModel.logradouro.toString();
+     bairro = viaCepModel.bairro.toString();
+     cidade = viaCepModel.localidade.toString();
+     uf = viaCepModel.uf.toString();
+    }
+     
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CreateUpdateCepView(
+                objectId: "default",
+                cep: cep,
+                logradouro: logradouro,
+                bairro: bairro,
+                cidade: cidade,
+                uf: uf)));
   }
 
   @override
@@ -48,22 +76,24 @@ class _SearchCepViewState extends State<SearchCepView> {
             ),
             GestureDetector(
                 onTap: () {
-                  enviarEndereco(context);                
+                  enviarEndereco(context);
                 },
                 child: Card(
-                  child: loading ? const CircularProgressIndicator() : Column(
-                    children: [
-                      Text(
-                          "${viaCepModel.cep ?? ""} - ${viaCepModel.logradouro ?? ""}",
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w600)),
-                      Text(
-                        "${viaCepModel.bairro ?? ""} - ${viaCepModel.localidade ?? ""} - ${viaCepModel.uf ?? ""}",
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
-                      )
-                    ],
-                  ),
+                  child: loading
+                      ? const CircularProgressIndicator()
+                      : Column(
+                          children: [
+                            Text(
+                                "${viaCepModel.cep ?? ""} - ${viaCepModel.logradouro ?? ""}",
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w600)),
+                            Text(
+                              "${viaCepModel.bairro ?? ""} - ${viaCepModel.localidade ?? ""} - ${viaCepModel.uf ?? ""}",
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.w600),
+                            )
+                          ],
+                        ),
                 )),
             const SizedBox(
               height: 20,
